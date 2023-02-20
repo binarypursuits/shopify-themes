@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { mdiCartPlus } from '@mdi/js';
 import Icon from '@mdi/react';
 import { Tooltip, IconButton, Grid } from '@mui/material';
@@ -7,9 +7,15 @@ import { useStoreContext, StoreContextState } from '../../hooks/use-stores-conte
 import AddEditStoreForm from './add-edit-store-form';
 
 function StoreSettings () {
-  const { removeStore } = useStoreContext() as StoreContextState;
+  const { shopifyStores, removeStore } = useStoreContext() as StoreContextState;
     const [showForm, setShowForm] = useState<boolean>(false);
     const [editStore, setEditStore] = useState<string | undefined>(undefined);
+
+    useEffect(() => {
+      if (shopifyStores.length === 0) {
+        setShowForm(true);
+      }
+    }, [])
 
     const onEditClicked = (name: string) => {
       setShowForm(true);
