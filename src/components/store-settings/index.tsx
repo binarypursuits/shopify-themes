@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from 'react';
 import { mdiCartPlus } from '@mdi/js';
 import Icon from '@mdi/react';
-import { Tooltip, IconButton, Grid } from '@mui/material';
+import { Tooltip, IconButton, Grid, Paper, Typography } from '@mui/material';
 import StoreTable from './store-table';
 import { useStoreContext, StoreContextState } from '../../hooks/use-stores-context';
 import AddEditStoreForm from './add-edit-store-form';
@@ -43,27 +43,32 @@ function StoreSettings () {
 
     return (
       <Fragment>
-        {!showForm &&
-          <Grid container justifyContent="flex-end" sx={{ pb: 2 }}>
-            <Grid item>
-              <Tooltip
-                title="Add a Shopify store"
-                placement="top"
-            >
-                <IconButton
-                  aria-label="Add a Shopify store"
-                  size="large"
-                  onClick={() => onNewClicked()}>
-                  <Icon path={mdiCartPlus} size={0.75} />
-                </IconButton>
-            </Tooltip>
-            </Grid>
-          </Grid>}
-      {
-        showForm ?
-          <AddEditStoreForm name={editStore} onCancel={onFormCancelClick} onSave={onFormSaveClick} /> :
-          <StoreTable onEdit={onEditClicked} onDelete={onDeleteClicked} />
-      }
+        <Typography variant="h5" component="div" align="left" sx={{ color: '#363636', pb: 2, pl: 2 }}>
+          Settings
+        </Typography>
+        <Paper elevation={3} sx={{ px: 2, pb: 2, pt: 1, backgroundColor: '#e2e2e2' }}>
+          {!showForm &&
+            <Grid container justifyContent="flex-end" sx={{ pb: 2 }}>
+              <Grid item>
+                <Tooltip
+                  title="Add a Shopify store"
+                  placement="top"
+              >
+                  <IconButton
+                    aria-label="Add a Shopify store"
+                    size="large"
+                    onClick={() => onNewClicked()}>
+                    <Icon path={mdiCartPlus} size={0.75} />
+                  </IconButton>
+              </Tooltip>
+              </Grid>
+            </Grid>}
+        {
+          showForm ?
+            <AddEditStoreForm name={editStore} onCancel={onFormCancelClick} onSave={onFormSaveClick} /> :
+            <StoreTable onEdit={onEditClicked} onDelete={onDeleteClicked} />
+        }
+        </Paper>
       </Fragment>
     )
 }

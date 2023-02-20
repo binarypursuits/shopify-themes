@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { Button, Grid, InputBase, Typography } from '@mui/material';
+import { Button, Grid, InputBase, Paper, Typography } from '@mui/material';
 import { alpha, styled } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import { Fragment, useEffect, useState } from 'react';
@@ -73,57 +73,59 @@ function StoreThemes({ name }: StoreThemeProps) {
   return (
     store && (
       <Fragment>
-        <Typography variant="h4" component="div" align="center" sx={{ color: '#363636'}}>
+        <Typography variant="h5" component="div" align="left" sx={{ color: '#363636', pb: 2, pl: 2 }}>
           { store.title }
         </Typography>
-        <Grid container justifyContent="space-between" sx={{ pb: 1 }}>
-          <Grid item flexGrow={0}>
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ "aria-label": "search" }}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-              />
-            </Search>
-          </Grid>
-          <Grid
-            container
-            item
-            alignContent="center"
-            justifyContent="center"
-            sx={{ width: "auto" }}
-          >
-            <Grid item>
-              <Typography
-                variant="caption"
-                display="block"
-                sx={{ lineHeight: "30px" }}
-              >
-                {`Last Updated: ${dayjs(store.updatedAt).format(
-                  "M/D/YY HH:mm"
-                )}`}
-              </Typography>
+        <Paper elevation={3} sx={{ px: 2, pb: 2, pt: 1, backgroundColor: '#e2e2e2' }}>
+          <Grid container justifyContent="space-between" sx={{ pb: 1 }}>
+            <Grid item flexGrow={0}>
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ "aria-label": "search" }}
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </Search>
             </Grid>
-            <Grid item sx={{ pl: 2 }}>
-              <Button
-                variant="contained"
-                size="small"
-                onClick={() => onThemeRefreshClicked()}
-              >
-                Refresh
-              </Button>
+            <Grid
+              container
+              item
+              alignContent="center"
+              justifyContent="center"
+              sx={{ width: "auto" }}
+            >
+              <Grid item>
+                <Typography
+                  variant="caption"
+                  display="block"
+                  sx={{ lineHeight: "30px" }}
+                >
+                  {`Last Updated: ${dayjs(store.updatedAt).format(
+                    "M/D/YY HH:mm"
+                  )}`}
+                </Typography>
+              </Grid>
+              <Grid item sx={{ pl: 2 }}>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={() => onThemeRefreshClicked()}
+                >
+                  Refresh
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-        <ThemeTable
-          baseUrl={store.baseUrl}
-          themes={store.themes}
-          searchTerm={search}
-        />
+          <ThemeTable
+            baseUrl={store.baseUrl}
+            themes={store.themes}
+            searchTerm={search}
+          />
+        </Paper>
       </Fragment>
     )
   );
