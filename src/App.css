@@ -1,0 +1,14 @@
+body {
+  width: 780px;
+}
+
+div#root {
+  height: 100%;
+}
+
+div.app {
+  margin-top: 70px;
+  padding: 10px;
+  height: 100%;
+}
+

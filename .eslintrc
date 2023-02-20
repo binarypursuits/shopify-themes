@@ -1,0 +1,45 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "project": "./tsconfig.json",
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "es2020": true,
+    "es2021": true,
+    "node": false
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    "class-methods-use-this": "off",
+    "import/namespace": "off",
+    "node/prefer-global/process": "off",
+    "node/prefer-global/console": "off",
+    "node/prefer-global/url": "off",
+    "node/prefer-global/url-search-params": "off",
+    "no-console": "off",
+    "line-comment-position": [
+      "error",
+      {
+        "position": "above"
+      }
+    ],
+    "no-implicit-coercion": [
+      "error",
+      {
+        "allow": ["!!"]
+      }
+    ],
+    "no-implicit-globals": "error"
+  }
+}

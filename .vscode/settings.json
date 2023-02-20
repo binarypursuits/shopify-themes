@@ -1,0 +1,30 @@
+{
+  "javascript.format.semicolons": "insert",
+  "javascript.preferences.quoteStyle": "single",
+  "javascript.validate.enable": true,
+  "javascript.format.enable": false,
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.validate.enable": true,
+  "typescript.format.enable": false,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "git.inputValidationLength": 1000,
+  "git.inputValidationSubjectLength": 100,
+  "themeCheck.onlySingleFileChecks": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "eslint.useESLintClass": true,
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
+    "cSpell.words": [
+      "browserslist",
+      "craco",
+      "CSSTE",
+      "previewable",
+      "semistandard"
+    ]
+}
