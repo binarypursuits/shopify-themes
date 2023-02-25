@@ -1,10 +1,15 @@
 import { Store } from './use-stores-context';
 
-const key = 'CSSTE';
+const key = 'BPST';
+
+export interface ShopifyThemesSettings {
+  stores: Store[];
+  activeStore: string;
+}
 
 function useChromeStorage() {
 
-    const getSettings = (): Promise<Store[]> => {
+    const getSettings = (): Promise<ShopifyThemesSettings> => {
         return new Promise(function(resolve, reject) {
             chrome.storage.local.get([key], (value) => {
                 if (chrome.runtime.lastError) {
@@ -12,15 +17,18 @@ function useChromeStorage() {
                 }
 
                 if (!value[key]) {
-                    return [];
+                    return {
+                      store: [],
+                      activeStore: ''
+                    };
                 }
 
-                resolve(value[key] as Store[]);
+                resolve(value[key] as ShopifyThemesSettings);
             });
         });
     }
 
-    const saveSettings = (settings: Store[]) => {
+    const saveSettings = (settings: ShopifyThemesSettings) => {
         return new Promise(function(resolve, reject) {
             chrome.storage.local.set({ [key]: settings }, () => {
                 if (chrome.runtime.lastError) {

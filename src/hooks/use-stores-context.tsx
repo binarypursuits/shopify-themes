@@ -83,8 +83,6 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
     }
   
     const themes = [] as Theme[];
-
-    console.log(response.themes);
     
     response.themes.forEach((t: ShopifyTheme) => themes.push({
       id: `${t.id}`,
@@ -147,9 +145,10 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
 
   useEffect(() => {
     getSettings().then((settings) => {
-      setStores(settings);
-      if (settings.length > 0) {
-        setActiveStore(settings[0].name);
+      setStores(settings.stores);
+      setActiveStore(settings.activeStore);
+      if (!settings.activeStore && settings.stores.length > 0) {
+        setActiveStore(settings.stores[0].name);
       }
     });
   }, []);
@@ -157,9 +156,9 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
   // get chrome extension local storage and set state using setStores
   useEffect(() => {
     (async () => {
-      await saveSettings(stores);
+      await saveSettings({ stores, activeStore });
     })();
-  }, [stores, saveSettings]);
+  }, [stores, activeStore, saveSettings]);
 
   return (
     <StoreContext.Provider
