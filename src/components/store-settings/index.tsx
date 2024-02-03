@@ -7,12 +7,16 @@ import { useStoreContext, StoreContextState } from '../../hooks/use-stores-conte
 import AddEditStoreForm from './add-edit-store-form';
 
 function StoreSettings () {
-  const { shopifyStores, removeStore } = useStoreContext() as StoreContextState;
+  const { form, setForm, shopifyStores, removeStore } = useStoreContext() as StoreContextState;
     const [showForm, setShowForm] = useState<boolean>(false);
     const [editStore, setEditStore] = useState<string | undefined>(undefined);
 
     useEffect(() => {
       if (shopifyStores.length === 0) {
+        setShowForm(true);
+      }
+
+      if (form.domain || form.store || form.title || form.token) {
         setShowForm(true);
       }
     }, [])
@@ -34,11 +38,23 @@ function StoreSettings () {
     const onFormCancelClick = () => {
       setEditStore(undefined);
       setShowForm(false);
+      setForm({
+        title: '',
+        store: '',
+        token: '',
+        domain: ''
+      });
     }
 
     const onFormSaveClick = () => {
       setEditStore(undefined);
       setShowForm(false);
+      setForm({
+        title: '',
+        store: '',
+        token: '',
+        domain: ''
+      });
     }
 
     return (

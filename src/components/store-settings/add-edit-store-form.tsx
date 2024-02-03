@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import { Button, Grid, Typography } from '@mui/material';
 import { useStoreContext, StoreContextState } from '../../hooks/use-stores-context';
 
-interface StoreForm {
+export interface StoreForm {
     title: string;
     store: string;
     token: string;
@@ -25,19 +25,32 @@ interface AddEditStoreFormProps {
 }
 
 function AddEditStoreForm({ name, onSave, onCancel }: AddEditStoreFormProps) {
-    const { addStore, getStore, updateStore } = useStoreContext() as StoreContextState;
+  const { addStore, getStore, updateStore, form, setForm } = useStoreContext() as StoreContextState;
 
   const [store, setStore] = useState<StoreForm>(nullFormState);
   const [isEdit, setIsEdit] = useState<boolean>(name ? true : false);
   const [isValid, setIsValid] = useState<boolean>(false);
 
   useEffect(() => {
-    let newIsValid = false;
-    if (store.title && store.store && store.token) {
-        newIsValid = true;
-    } 
+    if (form) {
+      setStore({...store, ...form});
+    }
+  }, []);
 
-    setIsValid(newIsValid)
+  useEffect(() => {
+    if (store.title === form.title && store.store === form.store && store.token === form.token && store.domain === form.domain) {
+      return;
+    }
+  
+    if (store.title || store.store || store.token || store.domain) {
+      let newIsValid = false;
+      if (store.title && store.store && store.token) {
+          newIsValid = true;
+      }
+
+      setForm(store);
+      setIsValid(newIsValid)
+    }
   }, [store, setIsValid])
 
   useEffect(() => {
@@ -72,6 +85,7 @@ function AddEditStoreForm({ name, onSave, onCancel }: AddEditStoreFormProps) {
       }
 
       setStore(nullFormState);
+      setForm({});
       onSave();
     } catch(e) {
       // intentionally suppressing error
@@ -147,7 +161,7 @@ function AddEditStoreForm({ name, onSave, onCancel }: AddEditStoreFormProps) {
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
             If you use a custom domain to access your Shopify store, you can
-            enter it hear. This field is not required.
+            enter it hear. This field is not required but must include a protocol to properly function.
           </Typography>
         </Grid>
         <Grid item xs={6}>

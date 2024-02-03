@@ -1,7 +1,7 @@
 {
   "name": "Shopify Themes",
   "description": "Interface for Shopify developers to have quick access to multiple Shopify store preview theme lists.",
-  "version": "0.1.1",
+  "version": "0.1.8",
   "manifest_version": 3,
   "action": {
       "default_popup": "index.html",
@@ -13,7 +13,7 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "permissions": ["storage"],
+  "permissions": ["storage", "tabs"],
   "host_permissions": ["https://*.myshopify.com/"],
   "background": {
     "service_worker": "background.js"

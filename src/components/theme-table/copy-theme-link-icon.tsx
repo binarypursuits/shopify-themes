@@ -3,6 +3,7 @@ import Icon from '@mdi/react';
 import { Tooltip, IconButton } from '@mui/material';
 
 const copyToClipboard = async (url: string) => {
+  console.log('copy url yo: ', url);
     await navigator.clipboard.writeText(url);
     return true;
 };

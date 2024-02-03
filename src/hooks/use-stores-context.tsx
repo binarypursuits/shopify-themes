@@ -8,6 +8,7 @@ import {
 import { AlertMessageProps } from '../components/alert';
 import Theme from '../components/theme-table/theme-model';
 import useChromeStorage from './use-chrome-storage';
+import { StoreForm } from '../components/store-settings/add-edit-store-form';
 
 export interface Store {
   name: string;
@@ -23,6 +24,8 @@ export interface StoreContextState {
   alert: AlertMessageProps | undefined;
   shopifyStores: Store[];
   activeStore: string;
+  form: Partial<StoreForm>;
+  setForm: (form: Partial<StoreForm>) => void;
   getStore: (name: string) => Store;
   addStore: (data: Store) => void;
   updateStore: (data: Store) => void;
@@ -57,11 +60,10 @@ interface StoreProviderProps {
   children: ReactNode;
 }
 
-
-
 export const StoreProvider = ({ children }: StoreProviderProps) => {
   const { getSettings, saveSettings } = useChromeStorage();
   const [stores, setStores] = useState<Store[]>([]);
+  const [form, setFormData] = useState<Partial<StoreForm>>({});
   const [alert, setAlert] = useState<AlertMessageProps | undefined>();
   const [activeStore, setActiveStore] = useState<string>("");
 
@@ -143,11 +145,18 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
     setActiveStore(data.name);
   };
 
+  const setForm = (form: Partial<StoreForm>) => {
+    setFormData(form);
+  }
+
   useEffect(() => {
     getSettings().then((settings) => {
       setStores(settings.stores);
       setActiveStore(settings.activeStore);
-      if (!settings.activeStore && settings.stores.length > 0) {
+      setForm(settings.form);
+
+      const hasFormData = (settings.form.title || settings.form.store || settings.form.token || settings.form.domain);
+      if (!settings.activeStore && settings.stores.length > 0 && !hasFormData) {
         setActiveStore(settings.stores[0].name);
       }
     });
@@ -156,9 +165,9 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
   // get chrome extension local storage and set state using setStores
   useEffect(() => {
     (async () => {
-      await saveSettings({ stores, activeStore });
+      await saveSettings({ stores, form, activeStore });
     })();
-  }, [stores, activeStore, saveSettings]);
+  }, [stores, activeStore, form, saveSettings]);
 
   return (
     <StoreContext.Provider
@@ -166,12 +175,14 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
         alert,
         shopifyStores: stores,
         activeStore,
+        form,
         addStore,
         updateStore,
         getStore,
         removeStore,
         setActiveStore,
         getActiveStore,
+        setForm,
         setAlert
       }}
     >
