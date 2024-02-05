@@ -151,6 +151,10 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
 
   useEffect(() => {
     getSettings().then((settings) => {
+      if (!settings.form) {
+        settings.form = {};
+      }
+
       setStores(settings.stores);
       setActiveStore(settings.activeStore);
       setForm(settings.form);

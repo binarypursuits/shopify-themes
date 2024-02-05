@@ -38,6 +38,10 @@ function AddEditStoreForm({ name, onSave, onCancel }: AddEditStoreFormProps) {
   }, []);
 
   useEffect(() => {
+    if (!form) {
+      return;
+    }
+
     if (store.title === form.title && store.store === form.store && store.token === form.token && store.domain === form.domain) {
       return;
     }
