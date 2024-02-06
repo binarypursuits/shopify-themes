@@ -38,12 +38,6 @@ function StoreSettings () {
     const onFormCancelClick = () => {
       setEditStore(undefined);
       setShowForm(false);
-      setForm({
-        title: '',
-        store: '',
-        token: '',
-        domain: ''
-      });
     }
 
     const onFormSaveClick = () => {
@@ -81,7 +75,7 @@ function StoreSettings () {
             </Grid>}
         {
           showForm ?
-            <AddEditStoreForm name={editStore} onCancel={onFormCancelClick} onSave={onFormSaveClick} /> :
+            <AddEditStoreForm name={editStore} showForm onCancel={onFormCancelClick} onSave={onFormSaveClick} /> :
             <StoreTable onEdit={onEditClicked} onDelete={onDeleteClicked} />
         }
         </Paper>

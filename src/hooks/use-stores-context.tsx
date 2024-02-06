@@ -25,6 +25,7 @@ export interface StoreContextState {
   shopifyStores: Store[];
   activeStore: string;
   form: Partial<StoreForm>;
+  getForm: () => Partial<StoreForm>;
   setForm: (form: Partial<StoreForm>) => void;
   getStore: (name: string) => Store;
   addStore: (data: Store) => void;
@@ -145,21 +146,22 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
     setActiveStore(data.name);
   };
 
+  const getForm = () => {
+    return form;
+  }
+
   const setForm = (form: Partial<StoreForm>) => {
+    console.log('setForm: ', form);
     setFormData(form);
   }
 
   useEffect(() => {
     getSettings().then((settings) => {
-      if (!settings.form) {
-        settings.form = {};
-      }
-
       setStores(settings.stores);
       setActiveStore(settings.activeStore);
       setForm(settings.form);
 
-      const hasFormData = (settings.form.title || settings.form.store || settings.form.token || settings.form.domain);
+      const hasFormData = (settings.form?.title || settings.form?.store || settings.form?.token || settings.form?.domain);
       if (!settings.activeStore && settings.stores.length > 0 && !hasFormData) {
         setActiveStore(settings.stores[0].name);
       }
@@ -186,6 +188,7 @@ export const StoreProvider = ({ children }: StoreProviderProps) => {
         removeStore,
         setActiveStore,
         getActiveStore,
+        getForm,
         setForm,
         setAlert
       }}

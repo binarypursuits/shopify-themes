@@ -20,40 +20,26 @@ const nullFormState = {
 
 interface AddEditStoreFormProps {
   name?: string;
+  showForm: boolean;
   onSave: () => void;
   onCancel: () => void;
 }
 
-function AddEditStoreForm({ name, onSave, onCancel }: AddEditStoreFormProps) {
-  const { addStore, getStore, updateStore, form, setForm } = useStoreContext() as StoreContextState;
+function AddEditStoreForm({ name, showForm, onSave, onCancel }: AddEditStoreFormProps) {
+  const { addStore, getStore, updateStore } = useStoreContext() as StoreContextState;
 
   const [store, setStore] = useState<StoreForm>(nullFormState);
   const [isEdit, setIsEdit] = useState<boolean>(name ? true : false);
   const [isValid, setIsValid] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (form) {
-      setStore({...store, ...form});
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!form) {
-      return;
-    }
-
-    if (store.title === form.title && store.store === form.store && store.token === form.token && store.domain === form.domain) {
-      return;
-    }
-  
+  useEffect(() => { 
     if (store.title || store.store || store.token || store.domain) {
       let newIsValid = false;
       if (store.title && store.store && store.token) {
           newIsValid = true;
       }
 
-      setForm(store);
-      setIsValid(newIsValid)
+      setIsValid(newIsValid);
     }
   }, [store, setIsValid])
 
@@ -67,7 +53,9 @@ function AddEditStoreForm({ name, onSave, onCancel }: AddEditStoreFormProps) {
         token: editStore.token || '',
         domain: editStore.domain || ''
       } as StoreForm)
-    } 
+    } else {
+      setIsEdit(false);
+    }
   }, [name, getStore, setStore])
 
   const onSubmit = () => {
@@ -89,7 +77,6 @@ function AddEditStoreForm({ name, onSave, onCancel }: AddEditStoreFormProps) {
       }
 
       setStore(nullFormState);
-      setForm({});
       onSave();
     } catch(e) {
       // intentionally suppressing error
